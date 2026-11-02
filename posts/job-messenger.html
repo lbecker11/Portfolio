@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Job Messenger — Lucas Becker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../src/style.css" />
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-name">Lucas Becker <span class="nav-comment">// Quantitative Research</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html#projects">Projects</a></li>
+        <li><a href="../bookshelf.html">Bookshelf</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="article-main">
+    <article class="article">
+
+      <header class="article-header">
+        <a class="article-back" href="../index.html#projects">← Projects</a>
+        <h1 class="article-title">Job Messenger</h1>
+        <div class="article-meta">
+          <span class="article-date">2026</span>
+          <ul class="project-categories">
+            <li>Automation</li>
+            <li>Python</li>
+          </ul>
+        </div>
+        <div class="article-tech">
+          <ul class="project-tags">
+            <li>Python</li>
+            <li>Playwright</li>
+            <li>Requests</li>
+            <li>GitHub Actions</li>
+          </ul>
+        </div>
+      </header>
+
+      <div class="article-body">
+        <p>My girlfriend is applying to physio jobs and it is hard to constantly check the website or wait for the odd email notification of a new posting. I had the idea to make use of the WhatsApp API and GitHub Actions to scrape the postings, take a snapshot, and check if anything has changed. This way she can receive a WhatsApp notification as soon as a new job comes out.</p>
+
+        <h2>Architecture</h2>
+
+        <h3>Meta &amp; WhatsApp</h3>
+        <p>To communicate through the WhatsApp API you need to set up a Meta Business account and create an app in the developer dashboard. This is straightforward following the online instructions. Because notifications only go out to one person, the free sandbox environment was all that was needed.</p>
+
+        <h3>Scraping</h3>
+        <p>Playwright was the right module here as it emulates a headless browser, making it easier to pull information from JavaScript-rendered pages. Because the target website is pure HTML, getting all the needed fields was simple to implement. The results are stored in a JSON file after each run.</p>
+
+        <h3>Comparing</h3>
+        <p>Each time the website is scraped, the JSON content is hashed. This allows for a quick comparison to detect whether anything has changed — a new posting or a removal. Only when the hash values differ does the actual comparison run. Comparing is then just a matter of diffing the old and new links and building a WhatsApp message from the result.</p>
+
+        <h2>Requirements</h2>
+        <pre class="architecture-diagram">pip install requests python-dotenv playwright
+playwright install chromium</pre>
+      </div>
+
+    </article>
+  </main>
+
+  <footer id="contact">
+    <div class="footer-inner">
+      <p class="footer-copy">&copy; 2026 Lucas Becker</p>
+    </div>
+  </footer>
+
+</body>
+</html>
