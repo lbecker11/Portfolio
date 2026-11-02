@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trade Terminal — Lucas Becker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../src/style.css" />
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-name">Lucas Becker <span class="nav-comment">// Quantitative Research</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html#projects">Projects</a></li>
+        <li><a href="../bookshelf.html">Bookshelf</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="article-main">
+    <article class="article">
+
+      <header class="article-header">
+        <a class="article-back" href="../index.html#projects">← Projects</a>
+        <h1 class="article-title">Trade Terminal</h1>
+        <div class="article-meta">
+          <span class="article-date">2026</span>
+          <ul class="project-categories">
+            <li>Quantitative Finance</li>
+          </ul>
+        </div>
+        <div class="article-tech">
+          <ul class="project-tags">
+            <li>C++</li>
+            <li>ImGui</li>
+            <li>OpenGL</li>
+          </ul>
+        </div>
+      </header>
+
+      <div class="article-body">
+        <p>A <em>Bloomberg terminal</em> is a cool program, but sadly I am in no position to afford the yearly fee. Interactive Brokers does come with its own GUI but sometimes I just need some tweaks and maybe different kinds of information. So, this seemed like the best time to sharpen my C++ skills and use OpenGL and ImGui to build an application that satisfies all my needs.</p>
+        <p>After having watched “The Cherno”s video on how to build applications using <em>ImGui</em>, it was clear that this library is the best solution. Working with it is extremely straightforward and every design decision can be read in the source code. This is something I find extremely enjoyable in C or C++ compared to Python, that there is very little abstraction and you download the whole source code and can read what the developers did and why they did it.</p>
+        <p>The first version of the terminal is just an overview of <em>open positions, transactions, an equity curve, and a window that allows me to run my strategy</em>. Currently the strategy is still written in Python, as all needed mathematical libraries are there and ready to use. The strategy is then executed with an easy system call and the output is written to a database that can then be read by the terminal. This way I can keep a good historical overview of all my transactions.</p>
+        <h2>Next Steps</h2>
+        <p>In the future I will adopt some changes. For one, I will rewrite the current terminal rendering logic to make it more structured with proper namespaces. As my strategy is currently focused on the NYSE, I will also implement a digital clock at the bottom that lets me know the current time of all key locations. On top of this I want to optimise the strategy by using different news APIs and if a potential entry is found, the ticker should be clickable to read current news on the stock to see what is going on. Obviously if I develop other strategies they should also be callable from the terminal, and ideally build themselves in C++.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <footer id="contact">
+    <div class="footer-inner">
+      <p class="footer-copy">&copy; 2026 Lucas Becker</p>
+    </div>
+  </footer>
+
+</body>
+</html>

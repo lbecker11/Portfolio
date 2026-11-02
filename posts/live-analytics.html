@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Analytics — Lucas Becker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../src/style.css" />
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-name">Lucas Becker <span class="nav-comment">// Quantitative Research</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html#projects">Projects</a></li>
+        <li><a href="../bookshelf.html">Bookshelf</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="article-main">
+    <article class="article">
+
+      <header class="article-header">
+        <a class="article-back" href="../index.html#projects">← Projects</a>
+        <h1 class="article-title">Live Analytics</h1>
+        <div class="article-meta">
+          <span class="article-date">2026</span>
+          <ul class="project-categories">
+            <li>Mathematics</li>
+            <li>Data Science</li>
+          </ul>
+        </div>
+        <div class="article-tech">
+          <ul class="project-tags">
+            <li>Python</li>
+            <li>Ultralytics YOLO</li>
+            <li>Supervision</li>
+            <li>OpenCV</li>
+            <li>Scikit-Learn</li>
+            <li>RoboFlow</li>
+          </ul>
+        </div>
+      </header>
+
+      <div class="article-body">
+        <p>Building on the ideas used in my prediction model, I thought it would be a good idea to potentially resolve some of the data limitations by building my own live pipeline. The idea is to track all the things that a static scrape from a website could not generate, like individual player stats and how game statistics change over time. Following the tutorial by Code in a Jiffy was a good starting point and if I wanted to further develop this, I could implement the same ideas as the Roboflow YouTube channel used for their basketball analytics.</p>
+        <p>Using footage from a local match and an additional data set from Roboflow I started the training using the <em>YOLOv5xu</em> model through my GPU. To track a player on each input frame we needed to create bounding boxes around them. This bounding box would then later be replaced with an ellipse around the players feet to make it more visually appealing. To perform this tracking <em>ByteTrack</em> was used and not DeepSORT. ByteTrack associates each detection, even low confidence ones, to existing tracks instead of discarding them. In football there is a lot of overlap of players, DeepSORT relies on appearance features to re-associate the tracks, which adds latency and complexity. ByteTrack achieves better tracking accuracy through IoU, making it simpler to deploy for this test run.</p>
+        <p>To assign the teams we made use of clustering. For this project we used <em>KMeans</em> to detect the colors of the two teams. We used the top half of the player and converted it to a 2D image to train the clustering model. We looked at the 4 corners of the image using it as the background, leaving the other color as the team color. By using KMeans and setting k equal to 2, we are easily able to separate the two dominant colors which will be the background grass for example and the jersey color. This is computational cheap and does not require labelled data.</p>
+        <p>The next area to tackle was the <em>camera movement, perspective,</em> and how to deal with the model not being able to identify the ball. For the camera movement, points needed to be fixed on the field so that if the camera moves the input should not be taken as actual movement. The same goes for the perspective. To accurately read the speed statistics of a player, the perspective of the camera needed to be considered. To do this we mapped points from one plane to another using a homography matrix. We take four known trapezoid points on the pitch and four destination points. The last thing we used here was the <em>ball interpolation</em>. In case the model was not able to follow the ball anymore we made use of interpolation where we assumed that the ball will continue traveling in its last known direction and the bounding box closest to that line should receive the ball. Obviously this is not a perfect solution and can be improved on.</p>
+        <h2>Limitations & Improvements</h2>
+        <p>Because the ball interpolation is not the best way to solve this issue, we can make use of what the Roboflow channel uses in their NBA example and create a separate CV model that is only focused on the ball. The speed readings are also inaccurate and have been removed from the current output as the perspective transform vertices are hardcoded. Ideally we would replace them with pitch keypoints that recompute them each frame. Occasionally a player gets assigned to the wrong team. To attack this we could use the KMeans clustering on several frames instead of just one and handle goal keepers separately.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <footer id="contact">
+    <div class="footer-inner">
+      <p class="footer-copy">&copy; 2026 Lucas Becker</p>
+    </div>
+  </footer>
+
+</body>
+</html>

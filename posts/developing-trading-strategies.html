@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Developing Trading Strategies — Lucas Becker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../src/style.css" />
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-name">Lucas Becker <span class="nav-comment">// Quantitative Research</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html#projects">Projects</a></li>
+        <li><a href="../bookshelf.html">Bookshelf</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="article-main">
+    <article class="article">
+
+      <header class="article-header">
+        <a class="article-back" href="../index.html#projects">← Projects</a>
+        <h1 class="article-title">Developing Trading Strategies</h1>
+        <div class="article-meta">
+          <span class="article-date">2026</span>
+          <ul class="project-categories">
+            <li>Mathematics</li>
+            <li>Quantitative Finance</li>
+            <li>Data Science</li>
+          </ul>
+        </div>
+        <div class="article-tech">
+          <ul class="project-tags">
+            <li>C++</li>
+            <li>Python</li>
+            <li>Scikit-Learn</li>
+            <li>Norgate</li>
+            <li>Optuna</li>
+          </ul>
+        </div>
+      </header>
+
+      <div class="article-body">
+
+        <blockquote class="article-quote">
+          <p>"If you have built castles in the air, your work need not be lost; that is where they should be. Now put the foundations under them."</p>
+          <cite>— Henry David Thoreau</cite>
+        </blockquote>
+
+        <p>For a long time I have been interested in investing and trading, but never felt like I had the correct foundation to dive in. Throughout high school I struggled to score well in maths, yet when my teachers would be able to connect specific math theories or proofs to real life problems that interested me, I would score well. Once I finished high school and went off to uni I realised for myself that in order to be successful, you should not build on someone getting you interested in something to do well but build interest yourself. For me this came with trying to connect topics in uni to topics that interested me. Luckily for me, this time around, math and statistics stuck more to me. However, both these fields were not explored in much depth during uni. I learned what I needed to learn and that's where it ended. I graduated and not long after I stumbled across data science and the quantitative finance community on reddit. For me this was the moment where my synapses started to connect all topics together and I immersed myself in computer science, maths, and statistics. The more I read, listened to podcasts, or watched videos from channels like <em>Invest Like The Best</em> the more ideas came to me. With my foundation built now I started to work on my first trading strategy.</p>
+
+        <p>The core idea behind this stems from the GameStop short squeeze from 2021. There were a lot of different concerns and news around this squeeze, but for me the main concept was:</p>
+
+        <ul>
+          <li>Scan the market for deeply distressed companies</li>
+          <li>Do your due diligence on why they are distressed</li>
+          <li>What is your conviction behind them recovering?</li>
+        </ul>
+
+        <p>This is the concept. Find companies that have fallen behind and figure out if they could recover. In statistics, data generally tends to converge to the mean. This concept is something that has been deeply studied in finance as well. The question is always is a price shock a temporary anomaly, or is it a permanent structural change? For me, this concept made a lot of sense, paired with lots of different data analysis. This is why it is a strategy I wanted to explore more and build.</p>
+
+        <h2>The Intuition</h2>
+
+        <p>As mentioned above, mean reversion has been studied throughout history with some people agreeing on it and others not. Mean reversion can be compared to a rubber band. If you stretch the rubber band you expect it to snap back to the middle. In some cases the rubber band has been stretched too much and it will just snap. That is for me to find where it snaps in half and breaks, and where it snaps back. From a statistical standpoint, I can normalise my data and have a look at the z-scores. If the returns measured over a time frame have fallen to for example -3.0, I could say this is a statistical anomaly. If a company returns in a sector moving up, yet one company falls behind, I could identify them like this. I just have to research if this was a panic sell-off or a real structural change. With the theory out of the way, I need to figure out where data comes from.</p>
+
+        <h2>Getting Clean Data</h2>
+
+        <p>Data can be found from a lot of vendors. I could just get it from Yahoo Finance, or my broker of choice for free. The issue with these data sets is that they include a bias; <em>survivorship bias</em>. For me to learn what it takes to snap back to the mean, or past it, it does not help me to only look at companies that recovered. I need to look and learn from companies that did not recover. What factors influenced them? What was the market doing? What macro trends were happening? Most importantly, when I build a backtest for my strategy, I need to be able to pick the wrong candidates that looked promising at the time but died later on. If I am not able to buy these equities my returns on the backtest will always look promising. The returns in the long run will most likely be positive because the strategy was not able to pick losers. Only like this can I get accurate results and learn from my mistakes. For this strategy I went with US equities data. While I am German and Germany has its own equity markets in Europe, the data is very fragmented. In the US companies go by tickers. In Europe, companies are identified by their ISIN. The ISIN might be unique but it does not tell you on what exchange it is traded. The same asset will be traded across different order books, split by country, currency and local settlement systems. The US just uses tickers that are easy to interpret and cover all venues. For me this was justified by the decision to not spend too much time at the data aggregation hurdle. After some research I decided to go with Norgate as my data vendor as they ticked all the boxes for successful backtesting.</p>
+
+        <h2>Decomposing Returns</h2>
+
+        <p>After I loaded all the data into my system, one of the first things to do was to decompose it. I grabbed all the needed tickers as well as sector ETFs. These ETFs are important to me to get an idea of what each sector did during a specific time frame as well as understanding the market better. From this overview I can better understand what the individual companies are doing and make a decision of if their stretch might recover. For example I could see that a stock had moved away from the mean of the sector. The market has been in a good bull state for a bit, so I might conclude that this is a reversion opportunity. What I did not consider is that the sector, in which the company operates, has been on a decline. My reversion opportunity then does not reflect the company's drift, but the overall sector drift. This is why it is important to look at the overall state.</p>
+
+        <h2>Turning Residuals into Signals</h2>
+
+        <p>Once I have sorted my data needs and standardised returns, I can go into my residual calculation process. There are many different ways to calculate residuals to estimate how far an equity might have moved from its mean. For this strategy I looked at a specific time frame, standardised the returns matrix and fed this data into a linear combination. The resulting regression can then be used to estimate what a fair return might look like. This fair return is what I used to calculate my residuals. Because my data is standardised I can go back to the statistical thinking of when is a stretch a statistical anomaly that could return? For example if my equity price falls below -1.645 I would have a probability of observing this metric/residual that is less than 5% (if I assume a normal distribution). Based on this idea I can perform my equity screening. Once I have identified the tickers in distress, it is reasonable to not buy straight away. Ideally I wait until I can reach a "hook" status. This means the z-score of the equity is improving and reaches a threshold where I would say that now there is a high conviction behind a reversion. This is my entry point and I would hold the asset until it either returns to the mean (0) or it goes above it and I can start to play with trailing stops.</p>
+
+        <h2>Filters</h2>
+
+        <p>Filters are the essential backbone not only for finding entries but also risk management. The linear combination that I use to calculate fair values already has systematic risk modeling built into it, but additional filters on top aid this. A simple filter I applied is a moving average for the sectors. If the short-term average is above the long-term average, the filter states that I am currently in a healthy sector. On top of this I also set a minimum volume filter to make sure that the trades that are registered from the market show conviction. This volume can be gathered from the OHLCV data itself, or it can be tracked through other indicators like on-balance volume or similar. Both of these help to avoid catching "falling knives" as I pre-filter equities that might have fallen due to outside concerns and not the company itself.</p>
+
+        <h2>Backtesting</h2>
+
+        <p>For backtesting I wrote my own engine in C++. The main issue to solve for backtesting is avoiding any kind of bias. Survivorship bias should be avoided at the data aggregation step. The next bias to eliminate is the <em>lookahead bias</em>. Here I need to make sure that my calculations only see data that I would have available at the current time. For example if I do EOD analysis and want to open a trade the next day, my engine should use the next day's open as the correct price. In case I perform calculations like a standardisation and I use features that depend on a moving window, the standardisation needs to happen over that time frame. I should not use a mean or standard deviation that was gathered over the whole data set. Other things to consider for the backtest to get realistic results is transaction costs. I need to make sure that my end PnL has transaction costs calculated into it otherwise my numbers might lead me astray. On top of this I also need to figure out what to do with value traps. For example I might have a half-life filter that kicks in when I hold an asset longer than x2 its half-life reversion time. This is essential when I consider delisted securities. If the filter kicks in I close those positions and accept the loss for example. In some cases this filter might also give me extra profits. It always depends on the situation. Only if I consider these things can I start to trust my backtest numbers. In my mind you should probably never trust yourself and always question numbers that look too good. If you have checked every step of your math, biases, and data the only way to find if your Sharpe or Sortino make sense is to run the strategy on a couple months of paper trading.</p>
+
+        <h2>Optimisation</h2>
+
+        <p>I started out the strategy with filter thresholds that should be in range that make sense. In most ML algorithms you use something like a grid search cross validation to find the best combination of hyperparameters. In the case of this strategy, because I was looking at over 9000 trading days of data, finding the optimal combination of hyperparameters with an algorithm like this would not be efficient. The bottleneck in my case was that each evaluation would need the entire pipeline to run. One run takes about 5 minutes. In my scenario I was testing around 2100 combinations, over 6 folds, each taking about 4 minutes. Unless I have a super computer, which I do not, this would have taken 36 days of run time on a single thread. The better alternative was Bayesian optimization. With this I was able to cut the evaluations down to roughly 50. I made use of the "optuna" library for this, which reduced the run time to 11 hours. This was feasible as it just let it run over night.</p>
+
+        <h2>Results</h2>
+
+        <p>After completing all this and running the backtest, the Sharpe ratio was 0.3493 with a Sortino ratio of 0.9846 and a win rate of 76.8022%. To confirm these results now the strategy will be pushed to a paper trading account. This is the last check to figure out if my math is correct and the backtest engine did not have a leakage or any leftover bias.</p>
+
+        <h2>System Architecture</h2>
+
+        <p>The system is split into two components: a Python pipeline responsible for data ingestion and signal generation, and a C++ backtesting engine that consumes those signals and simulates portfolio performance.</p>
+
+        <pre class="architecture-diagram">
+  Norgate Data
+       │
+      ▼
+  Parquet Cache (data/raw/)
+       │
+      ▼
+  Python Pipeline
+    ├── Rolling ML residuals
+    ├── Z-score state machine  ──► Signal CSVs (output/signals/)
+    ├── Sector health filter                    │
+    └── Volume filter                            ▼
+                                       C++ Backtest Engine
+                                         ├── Position sizing
+                                         ├── Mark-to-market
+                                         ├── Exit logic
+                                         └── Reports (output/reports/)
+                                                  │
+                                                 ▼
+                                       Walk-Forward Optimiser
+                                         (scripts/walk_forward.py)
+        </pre>
+
+        <p>The Python side handles everything from raw data to signals. Once price data is fetched from Norgate and cached locally into parquet files, the pipeline computes residuals on a rolling window, always looking backward only, never using data that wouldn't have been available at that point in time. The resulting signals are written to dated CSV files, one per trading day, creating a clean handoff point that the backtester can consume independently.</p>
+
+        <p>The C++ engine reads these files and simulates the portfolio day by day. It loads all price data upfront, iterates through each calendar day, executes pending entries at the following day's open, marks open positions to market, and applies exit logic including value trap detection and trailing stops. The output is a full trade log and a set of performance reports.</p>
+
+        <p>The separation between Python and C++ was deliberate. Python has a rich ecosystem for statistical work, while C++ gives precise control over the simulation logic and runs fast enough to backtest 25 years of data in seconds. In this case I used the typical Scikit-Learn module. The signal CSVs act as the contract between the two systems, either side can change its internals without breaking the other.</p>
+
+        <p>The optimization layer sits above both. The walk-forward script orchestrates the Python pipeline and calls the C++ backtester as a subprocess for each trial, passing date ranges and reading the output reports to score each parameter combination. Expensive computations like my ML features for fair value calculation are cached in memory and reused across trials that share the same parameters, keeping the overall runtime practical.</p>
+
+      </div>
+
+    </article>
+  </main>
+
+  <footer id="contact">
+    <div class="footer-inner">
+      <p class="footer-copy">&copy; 2026 Lucas Becker</p>
+    </div>
+  </footer>
+
+</body>
+</html>

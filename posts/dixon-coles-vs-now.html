@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dixon-Coles vs. Now — Lucas Becker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../src/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-name">Lucas Becker <span class="nav-comment">// Quantitative Research</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html#projects">Projects</a></li>
+        <li><a href="../bookshelf.html">Bookshelf</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="article-main">
+    <article class="article">
+
+      <header class="article-header">
+        <a class="article-back" href="../index.html#projects">← Projects</a>
+        <h1 class="article-title">Dixon-Coles vs. Now</h1>
+        <div class="article-meta">
+          <span class="article-date">2026</span>
+          <ul class="project-categories">
+            <li>Mathematics</li>
+            <li>Data Science</li>
+          </ul>
+        </div>
+        <div class="article-tech">
+          <ul class="project-tags">
+            <li>Python</li>
+            <li>PostgreSQL</li>
+            <li>XGBoost</li>
+            <li>Scikit-Learn</li>
+          </ul>
+        </div>
+      </header>
+
+      <div class="article-body">
+
+        <p>A while back I watched a short video on Haralabos Voulgaris, a poker player who used data analysis to his advantage. Just like Sandor Straus in Renaissance Technologies was gathering lots of data to develop edge, Voulgaris was doing the same but with NBA statistics. He was gathering every bit of statistics he could, on top of tracking his own for each match. This let him outperform the book keepers. Since then sports analytics has gotten a lot more detailed and book keepers are able to price most information in. This would mean there would be no more real edge in “sports trading”.</p>
+        <p>However, one of my friends is a professional sports trader racking in massive profits. With this in mind I figured that the markets are not as efficient as they might seem to an outsider and I wanted to test myself if I could build some basic models to predict outcomes of matches. The league I decided to look at was the German Bundesliga. A random guess on an outcome has a chance of 33% being right (win/draw/loss). If I could perform better than a random guess this would already be a plus.</p>
+        <p>I began my research and very quickly came across the paper from Mark J. Dixon and Stuart G. Coles <em>“Modelling Association Football Scores and Inefficiencies in the Football Betting Market”</em>. In this paper Dixon-Coles uses the work by Maher from 1982 in which he modelled the outcome of matches as independent poisson distributions, and added a time parameter on top of it. We have a home distribution making use of attack rates, defence rates, and home advantage. The home distribution makes use of all 3 and the away distribution makes use of the attack and defense rate. Using the resulting bivariate poisson we can then model expected goals, with respect to the changing dynamics as a match would progress, read from historical data. The last thing that needed to be overcome was the bookmakers' take which is calculated into the odds. If their expected probability of the match outcome was beating that odds plus the take, it was considered a EV positive bet.</p>
+        <p>Taking this research paper as a base I wanted to add some modern machine learning methods. In the paper they also broke down what data they used for their <em>features</em> which breaks down to just using end scores. The features I used were said match outcomes as well as previous match stats (xG, shots, possession, accuracy), rolling averages not including the current game (goals, xG performance, shot conversion over recent matches), form metrics (cumulative points, win streak, points rank, home/away form windows), head-to-head statistics, an ELO system for ranking teams over the collected time frame, the Dixon-Coles rates, and the matchday home/away indicator.</p>
+        <p>Using these features I then trained <em>5 models</em> which included the standard Dixon-Coles, a XGBoost Classifier (win/draw/loss) with natural class balancing to combat the uneven distribution of outcomes and isotonic regression to calibrate the outcomes, a XGBoost xG regressor using the idea of Dixon-Coles to predict scored goals feeding them into a scoring matrix, bivariate poisson adding a shared component, and lastly a stacked model using each outcome of the above models as a feature in a linear function. A full equation would then look like this:</p>
+        <p>\[
+            \begin{aligned}
+            z_k = \; & b_0 + w_1 p_{\text{DC,home}} + w_2 p_{\text{DC,draw}} + w_3 p_{\text{DC,away}} \\
+                    & + w_4 p_{\text{XGB,home}} + w_5 p_{\text{XGB,draw}} + w_6 p_{\text{XGB,away}} \\
+                    & + w_7 p_{\text{xG,home}} + w_8 p_{\text{xG,draw}} + w_9 p_{\text{xG,away}} \\
+                    & + w_{10} p_{\text{BP,home}} + w_{11} p_{\text{BP,draw}} + w_{12} p_{\text{BP,away}}
+            \end{aligned}
+            \]
+        </p>
+        <p>The full <em>pipeline</em> then consisted of removing the vig from the book makers to get a fair market probability, calculate the edge, find the expected value, flag the EV positive bets and apply a fractional Kelly sizing to place the ideal bet.</p>
+        <p>What became apparent very quickly is that <em>draws</em> were not identified well. In a betting scenario this is bad, since a misplaced bet is lost money. Because I then knew that we need to weight draws better, I decided to heavily penalise false negatives for the draw bracket and started to optimise the draw recall metric. If the predicted draw probability exceeded a threshold then, the match was classified as a draw.</p>
+        <h2>Results</h2>
+        <p>The outcome was that no individual model dominated performance across the metrics, and the overall value created was negative. This leads to the limitations and how this model could have been improved. Overall, the data collection needs to be bigger. There need to be more recorded matches to get a good idea and most importantly more and different features. Right now I was  not able to obtain player data which could have a massive impact on the match outcome. The dynamic time factor that Dixon-Cole uses should also be implemented here. If I wanted to improve on this I should consider these points and go really in depth upon which data I should use and how to obtain it most efficiently.</p>
+
+      </div>
+
+    </article>
+  </main>
+
+  <footer id="contact">
+    <div class="footer-inner">
+      <p class="footer-copy">&copy; 2026 Lucas Becker</p>
+    </div>
+  </footer>
+
+</body>
+</html>

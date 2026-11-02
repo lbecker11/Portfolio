@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The C++ Programming Language — Lucas Becker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../src/style.css" />
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-name">Lucas Becker <span class="nav-comment">// Quantitative Research</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html#projects">Projects</a></li>
+        <li><a href="../bookshelf.html">Bookshelf</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="article-main">
+    <article class="article">
+
+      <header class="article-header">
+        <a class="article-back" href="../bookshelf.html">← Bookshelf</a>
+        <h1 class="article-title">The C++ Programming Language</h1>
+        <div class="article-meta">
+          <span class="article-date">Bjarne Stroustrup</span>
+        </div>
+      </header>
+
+      <div class="article-body">
+        <h2>Overview</h2>
+        <p>I wanted to get a better overview of how C++ works and how to write it, so what better book to read than one by the creator himself. <em>The C++ Programming Language</em> is separated into four parts: introduction material, basic facilities, abstraction mechanisms, and the standard library.</p>
+
+        <p>The introduction acts as a high-level overview of how C++ works and what was new in C++11. The basic facilities part covers the standard syntax. This is very similar to C — types, pointers, and arrays — along with references, which are C++ specific. This is followed by structures, which are later essentially modified to create classes, unions, and enumerations. The section also covers statements, expressions, and exception handling, which is another feature specific to C++ and absent in C. One thing I also like about C++ is that you can create namespaces to better organise code and avoid naming conflicts.</p>
+
+        <p>The third part covers abstraction, which is the main reason C++ was created. Here you learn how to create classes — data structures with operations — and advance from built-in types to user-defined types. Classes make use of the RAII concept, meaning "resource acquisition is initialization". Instead of using old patterns like <code>malloc</code> and <code>free</code>, resources are built into the type itself. This is why containers from the standard library are so effective: they are efficient resource handles. Abstraction also extends to templates, which enable generic programming. Rather than defining exact types as in C, you can abstract over what types are valid and use predicates to enforce that arguments satisfy the operation's requirements. Through this, you can dive deeper into specialisation and create powerful custom user-defined types.</p>
+
+        <p>The last part covers the C++ standard library, with high-level concepts like containers, algorithms, and iterators, as well as memory, I/O streams, concurrency, and threads and tasks.</p>
+
+        <h2>Key Takeaways</h2>
+        <p>There are so many key concepts here that it is hard to name them all. The book not only teaches how C++ works but also important computer science concepts that translate well into other languages. For me, efficient class design through abstract classes and polymorphism was one example — something I was able to apply in Python fairly quickly as well. The sections on concurrency and threads also gave me a much better understanding of how things like IPC can be built in C++.</p>
+
+        <h2>Who Should Read This</h2>
+        <p>Anyone who wants to understand how C++ works under the hood. Ideally take an introductory course first so that the concepts click faster when you encounter them in the book.</p>
+
+        <h2>Rating</h2>
+        <p>4 out of 5. I still found myself looking up many concepts, as they were not described in enough detail for me to understand them directly from the book.</p>
+      </div>
+
+    </article>
+  </main>
+
+  <footer id="contact">
+    <div class="footer-inner">
+      <p class="footer-copy">&copy; 2026 Lucas Becker</p>
+    </div>
+  </footer>
+
+</body>
+</html>

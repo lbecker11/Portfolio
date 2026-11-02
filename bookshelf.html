@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bookshelf — Lucas Becker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="src/style.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+      }
+    }
+  </script>
+  <style>
+    #bookshelf-canvas {
+      display: block;
+      width: 100%;
+      height: calc(100vh - 52px);
+      margin-top: 52px;
+    }
+
+    #annotation-svg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      display: none;
+      z-index: 10;
+    }
+
+    #annotation-svg circle.outer {
+      fill: none;
+      stroke: #e2e2e2;
+      stroke-width: 1.5;
+    }
+
+    #annotation-svg circle.dot {
+      fill: #141414;
+    }
+
+    #annotation-svg path {
+      stroke: #e2e2e2;
+      stroke-width: 1;
+      fill: none;
+    }
+
+    #bubble {
+      position: fixed;
+      display: none;
+      width: 220px;
+      background: #141414;
+      border: 1px solid #222222;
+      padding: 14px 16px;
+      pointer-events: none;
+      z-index: 11;
+      cursor: pointer;
+    }
+
+    #bubble .bubble-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      color: #e2e2e2;
+      margin-bottom: 6px;
+    }
+
+    #bubble .bubble-intro {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: #666666;
+      line-height: 1.6;
+    }
+
+    #bubble .bubble-cta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: #5a9e6f;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-name">Lucas Becker <span class="nav-comment">// Quantitative Research</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html#projects">Projects</a></li>
+        <li><a href="bookshelf.html">Bookshelf</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <canvas id="bookshelf-canvas"></canvas>
+
+  <!-- Hidden video element for monitor screen texture -->
+  <video id="monitor-video" src="assets/BlenderCode.mp4" loop muted autoplay playsinline style="position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;pointer-events:none;"></video>
+
+  <!-- SVG overlay for circle + line -->
+  <svg id="annotation-svg">
+    <path id="anno-line" d="" />
+    <circle class="outer" id="anno-outer" cx="0" cy="0" r="7" />
+    <circle class="dot"   id="anno-dot"   cx="0" cy="0" r="3" />
+  </svg>
+
+  <!-- Text bubble -->
+  <div id="bubble">
+    <div class="bubble-title"></div>
+    <div class="bubble-intro"></div>
+    <div class="bubble-cta">// click to read review</div>
+  </div>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    const bookData = {
+      'algo_think':          { title: 'Algorithmic Thinking',                     intro: '',url: 'books/algo-think.html' },
+      'bayesian':            { title: 'Bayesian Statistics',                       intro: '',url: 'books/bayesian.html' },
+      'c_prog':              { title: 'The C Programming Language',                intro: '',url: 'books/c-prog.html' },
+      'comp_prog':           { title: 'Competitive Programming',                   intro: '',url: 'books/comp-prog.html' },
+      'damodaran':           { title: 'Damodaran on Valuation',                    intro: '',url: 'books/damodaran.html' },
+      'div_growth':          { title: 'Dividend Growth Investing',                 intro: '',url: 'books/div-growth.html' },
+      'dive_ds':             { title: 'Dive Into Data Science',                    intro: '',url: 'books/dive-ds.html' },
+      'ds_command':          { title: 'Data Science at the Command Line',          intro: '',url: 'books/ds-command.html' },
+      'ds_from_scratch':     { title: 'Data Science from Scratch',                 intro: '',url: 'books/ds-from-scratch.html' },
+      'ds_hard':             { title: 'Data Science: The Hard Parts',              intro: '',url: 'books/ds-hard.html' },
+      'essential_math':      { title: 'Essential Mathematics for Data Science',    intro: '',url: 'books/essential-math.html' },
+      'intelligent_invest':  { title: 'The Intelligent Investor',                  intro: '',url: 'books/intelligent-invest.html' },
+      'learning_ds':         { title: 'Learning Data Science',                     intro: '',url: 'books/learning-ds.html' },
+      'million_math':        { title: 'Million Dollar Math',                       intro: '',url: 'books/million-math.html' },
+      'practical_statistics':{ title: 'Practical Statistics for Data Scientists',  intro: '',url: 'books/practical-statistics.html' },
+      'py_crash':            { title: 'Python Crash Course',                       intro: '',url: 'books/py-crash.html' },
+      'recursive':           { title: 'The Recursive Book of Recursion',           intro: '',url: 'books/recursive.html' },
+      'rich_dad':            { title: 'Rich Dad Poor Dad',                         intro: '',url: 'books/rich-dad.html' },
+      'rich_dividend':       { title: 'Get Rich with Dividends',                   intro: '',url: 'books/rich-dividend.html' },
+      'se_ds':               { title: 'Software Engineering for Data Scientists',  intro: '',url: 'books/se-ds.html' },
+      'sql':                 { title: 'Learning SQL',                              intro: '',url: 'books/sql.html' },
+      'the_man_who_solved':  { title: 'The Man Who Solved the Market',             intro: '',url: 'books/the-man-who-solved.html' },
+      'linear_alg':          { title: 'Linear Algebra',                            intro: '',url: 'books/linear-alg.html' },
+      'moonwalking':         { title: 'Moonwalking with Einstein',                  intro: '',url: 'books/moonwalking.html' },
+      'make_stick':          { title: 'Make It Stick',                              intro: '',url: 'books/make-stick.html' },
+      'beat-dealer':         { title: 'Beat the Dealer',                            intro: '',url: 'books/beat-dealer.html' },
+      'cpp':                 { title: 'The C++ Programming Language',               intro: '',url: 'books/cpp.html' },
+      'man_market':          { title: 'A Man for All Markets',                      intro: '',url: 'books/man-market.html' },
+      'polars':              { title: 'Polars: The Definitive Guide',               intro: '',url: 'books/polars.html' },
+    };
+
+    const canvas    = document.getElementById('bookshelf-canvas');
+    const svg       = document.getElementById('annotation-svg');
+    const annoLine  = document.getElementById('anno-line');
+    const annoOuter = document.getElementById('anno-outer');
+    const annoDot   = document.getElementById('anno-dot');
+    const bubble    = document.getElementById('bubble');
+
+    // Scene
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0c0c0c);
+
+    // Camera
+    const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
+    camera.position.set(1, 7, 1);
+
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+    // Lighting
+    scene.add(new THREE.AmbientLight(0xffffff, 1.5));
+    const dirLight = new THREE.DirectionalLight(0xffffff, 2);
+    dirLight.position.set(3, 5, 5);
+    scene.add(dirLight);
+
+    // Controls
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.minPolarAngle = Math.PI / 4;
+    controls.maxPolarAngle = Math.PI / 1.5;
+
+    // Video texture for monitor screen
+    const videoEl = document.getElementById('monitor-video');
+    const videoTexture = new THREE.VideoTexture(videoEl);
+    videoTexture.colorSpace = THREE.SRGBColorSpace;
+    videoTexture.flipY = false;
+
+    // Load full scene
+    const loader = new GLTFLoader();
+    console.warn('Starting GLB load...');
+    loader.load('assets/UserAnimation.glb', (gltf) => {
+      console.warn('GLB loaded successfully');
+      scene.add(gltf.scene);
+
+      // Apply video texture to monitor screen mesh
+      videoEl.play().catch(() => {});
+      const names = [];
+      gltf.scene.traverse((obj) => { if (obj.isMesh) names.push(obj.name); });
+      console.warn('MESH NAMES:', names);
+      gltf.scene.traverse((obj) => {
+        if (obj.name.toLowerCase() === 'screen' && obj.isMesh) {
+          obj.material = new THREE.MeshBasicMaterial({ map: videoTexture, side: THREE.DoubleSide });
+        }
+        if (obj.name === 'Screem_2' && obj.isMesh) {
+          const bb2Texture = new THREE.TextureLoader().load('assets/BB2.png');
+          bb2Texture.colorSpace = THREE.SRGBColorSpace;
+          bb2Texture.flipY = false;
+          obj.material = new THREE.MeshBasicMaterial({ map: bb2Texture, side: THREE.DoubleSide });
+        }
+      });
+
+      // Find bookshelf center and set as orbit target
+      const bookBox = new THREE.Box3();
+      gltf.scene.traverse((obj) => {
+        if (bookData[obj.name]) bookBox.expandByObject(obj);
+      });
+
+      if (!bookBox.isEmpty()) {
+        const center = new THREE.Vector3();
+        bookBox.getCenter(center);
+        controls.target.copy(center);
+        controls.update();
+      }
+
+    }, undefined, (error) => {
+      console.error('GLB load error:', error);
+    });
+
+    function getBookKey(object) {
+      let obj = object;
+      while (obj) {
+        if (bookData[obj.name]) return obj.name;
+        obj = obj.parent;
+      }
+      return null;
+    }
+
+    function showAnnotation(key, worldPos) {
+      const book = bookData[key];
+      const rect = canvas.getBoundingClientRect();
+
+      // Project 3D position to screen
+      const projected = worldPos.clone().project(camera);
+      const screenX = (projected.x * 0.5 + 0.5) * rect.width + rect.left;
+      const screenY = (-projected.y * 0.5 + 0.5) * rect.height + rect.top;
+
+      // Decide bubble direction based on screen position
+      const goRight   = screenX < window.innerWidth / 2;
+      const bubbleWidth = 220;
+      const seg1 = 24;   // initial horizontal
+      const diag = 100;   // 45° segment (equal x and y movement)
+      const seg2 = 70;   // final horizontal to bubble
+      const dir  = goRight ? 1 : -1;
+
+      const p2x = screenX + dir * seg1;
+      const p2y = screenY;
+      const p3x = p2x + dir * diag;
+      const p3y = screenY - diag;
+      const p4x = p3x + dir * seg2;
+      const p4y = p3y;
+
+      const bubbleX = goRight ? p4x : p4x - bubbleWidth;
+      const bubbleY = p4y - 36;
+
+      // Update SVG
+      annoOuter.setAttribute('cx', screenX);
+      annoOuter.setAttribute('cy', screenY);
+      annoDot.setAttribute('cx', screenX);
+      annoDot.setAttribute('cy', screenY);
+      annoLine.setAttribute('d',
+        `M ${screenX} ${screenY} L ${p2x} ${p2y} L ${p3x} ${p3y} L ${p4x} ${p4y}`
+      );
+
+      // Update bubble
+      bubble.style.left = bubbleX + 'px';
+      bubble.style.top  = bubbleY + 'px';
+      bubble.querySelector('.bubble-title').textContent = book.title;
+      const introEl = bubble.querySelector('.bubble-intro');
+      introEl.textContent = book.intro;
+      introEl.style.display = book.intro ? 'block' : 'none';
+
+      svg.style.display    = 'block';
+      bubble.style.display = 'block';
+      canvas.style.cursor  = 'pointer';
+    }
+
+    function hideAnnotation() {
+      svg.style.display    = 'none';
+      bubble.style.display = 'none';
+      canvas.style.cursor  = 'default';
+    }
+
+    const raycaster = new THREE.Raycaster();
+    const mouse     = new THREE.Vector2();
+    let hoveredBook = null;
+    const bookCenter = new THREE.Vector3();
+    const boundingBox = new THREE.Box3();
+
+    window.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(scene.children, true);
+
+      if (intersects.length > 0) {
+        const key = getBookKey(intersects[0].object);
+        if (key) {
+          hoveredBook = key;
+          boundingBox.setFromObject(intersects[0].object);
+          boundingBox.getCenter(bookCenter);
+          showAnnotation(key, bookCenter);
+          return;
+        }
+      }
+
+      hoveredBook = null;
+      hideAnnotation();
+    });
+
+    window.addEventListener('click', () => {
+      if (hoveredBook) window.location.href = bookData[hoveredBook].url;
+    });
+
+    window.addEventListener('resize', () => {
+      camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+
+</body>
+</html>

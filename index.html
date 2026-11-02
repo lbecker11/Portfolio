@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lucas Becker // Quantitative Research</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="src/style.css" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <span class="nav-name">Lucas Becker <span class="nav-comment">// Quantitative Research</span></span>
+      <ul class="nav-links">
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="bookshelf.html">Bookshelf</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- Hero -->
+    <section id="hero">
+      <div class="hero-animation">
+        <video autoplay loop muted playsinline>
+          <source src="assets/0001-0240.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="hero-overlay"></div>
+      <div class="hero-text">
+        <h1 class="hero-name">Lucas Becker</h1>
+        <p class="hero-comment">// Quantitative Research</p>
+        <p class="hero-tagline">Mathematics ·  Data Science · Quantitative Finance · Game Theory</p>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+      <h2 class="section-title">About</h2>
+      <div class="about-body">
+        <p>I'm a data analyst and math enthusiast focused on quantitative research, data science, financial systems, and computer science. My research spans statistical modelling for betting markets, systematic trading strategy development, and the application of game theory to real-world competitive environments.</p>
+        <p>On top, I enjoy building my own applications combining C/C++ and Python. I believe understanding the systems you build at a low level makes you a better designer of them at a high level. This is why I think it's always a good idea to try to look into the black-box.</p>
+        <p>I keep a <a href="bookshelf.html">bookshelf</a> of everything I've read. Zoom in and hover over a book to get a short take, click to read a full review. If you think there's something I should read that isn't on there, I'd love to hear it.</p>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <h2 class="section-title">Projects</h2>
+
+      <div class="projects-grid">
+
+        <article class="project-card">
+          <a class="card-image-link" href="posts/dixon-coles-vs-now.html" title="Read article">
+            <img src="assets/joint_poisson_3d.png" alt="Joint Poisson Distribution" />
+          </a>
+          <div class="project-header">
+            <h4 class="project-title">Dixon-Coles vs. Now</h4>
+            <a class="project-link" href="https://github.com/your-username/your-repo" target="_blank" rel="noopener">GitHub →</a>
+          </div>
+          <p class="project-desc">An analysis of the Dixon-Coles research paper on football betting. Scraped Bundesliga match data, built a stacked model, and tested whether a modern ML approach can outperform the original paper's predictive framework.</p>
+          <div class="project-footer">
+            <ul class="project-tags">
+              <li>Python</li>
+              <li>PostgreSQL</li>
+              <li>XGBoost</li>
+              <li>Scikit-Learn</li>
+            </ul>
+            <ul class="project-categories">
+              <li>Mathematics</li>
+              <li>Data Science</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <a class="card-image-link" href="posts/live-analytics.html" title="Read article">
+            <img src="assets/live_analytics.gif" alt="Live Analytics — YOLO player tracking" />
+          </a>
+          <div class="project-header">
+            <h4 class="project-title">Live Analytics</h4>
+            <a class="project-link" href="https://github.com/your-username/live-analytics" target="_blank" rel="noopener">GitHub →</a>
+          </div>
+          <p class="project-desc">Experimenting with computer vision to feed frames of a football match into a YOLO model and generate the statistics needed to connect back to a stacked prediction model.</p>
+          <div class="project-footer">
+            <ul class="project-tags">
+              <li>Python</li>
+              <li>Ultralytics YOLO</li>
+              <li>Supervision</li>
+              <li>OpenCV</li>
+              <li>Scikit-Learn</li>
+              <li>RoboFlow</li>
+            </ul>
+            <ul class="project-categories">
+              <li>Mathematics</li>
+              <li>Data Science</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <a class="card-image-link" href="posts/developing-trading-strategies.html" title="Read article">
+            <img src="assets/yearly_returns.png" alt="Yearly Returns — Strategy vs S&P 500" />
+          </a>
+          <div class="project-header">
+            <h4 class="project-title">Developing Trading Strategies</h4>
+            <a class="project-link" href="https://github.com/your-username/trading-strategies" target="_blank" rel="noopener">GitHub →</a>
+          </div>
+          <p class="project-desc">Outlines the development of a mean reversion trading strategy using Norgate data for backtesting, with a focus on identifying lookahead bias and survivorship bias.</p>
+          <div class="project-footer">
+            <ul class="project-tags">
+              <li>C++</li>
+              <li>Python</li>
+              <li>Scikit-Learn</li>
+              <li>Norgate</li>
+              <li>Optuna</li>
+            </ul>
+            <ul class="project-categories">
+              <li>Mathematics</li>
+              <li>Quantitative Finance</li>
+              <li>Data Science</li>
+            </ul>
+          </div>
+        </article>
+
+
+        <article class="project-card">
+          <a class="card-image-link" href="#" title="Read article">
+            <img src="assets/job_messenger.png" alt="Job Messenger — architecture diagram" />
+          </a>
+          <div class="project-header">
+            <h4 class="project-title">Job Messenger</h4>
+            <a class="project-link" href="https://github.com/your-username/job-messenger" target="_blank" rel="noopener">GitHub →</a>
+          </div>
+          <p class="project-desc">An automation using Meta Business and Meta Developer to send WhatsApp notifications to an account, receiving updates about current job postings in the NHS.</p>
+          <div class="project-footer">
+            <ul class="project-tags">
+              <li>Python</li>
+              <li>Playwright</li>
+              <li>Requests</li>
+              <li>GitHub Actions</li>
+            </ul>
+            <ul class="project-categories">
+              <li>Automation</li>
+            </ul>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer / Contact -->
+  <footer id="contact">
+    <div class="footer-inner">
+      <!-- contact links will go here -->
+      <p class="footer-copy">&copy; 2026 Lucas Becker</p>
+    </div>
+  </footer>
+
+  <script src="src/main.js"></script>
+
+  <!-- Intro overlay -->
+  <div id="intro-overlay">
+    <button id="intro-skip">skip //</button>
+
+    <!-- Phase 1: source data -->
+    <div class="intro-phase" id="phase-1">
+      <div class="intro-split">
+        <div class="intro-media">
+          <img src="assets/live_analytics.gif" alt="player tracking" />
+        </div>
+        <div class="intro-log" id="log-1"></div>
+      </div>
+    </div>
+
+    <!-- Phase 2: pipeline -->
+    <div class="intro-phase" id="phase-2">
+      <div class="intro-pipeline">
+        <div class="pipe-node" id="pn-1">raw data</div>
+        <div class="pipe-arrow" id="pa-1">→</div>
+        <div class="pipe-node" id="pn-2">feature eng.</div>
+        <div class="pipe-arrow" id="pa-2">→</div>
+        <div class="pipe-node" id="pn-3">model</div>
+        <div class="pipe-arrow" id="pa-3">→</div>
+        <div class="pipe-node" id="pn-4">signals</div>
+      </div>
+      <div class="intro-data-stream" id="data-stream"></div>
+    </div>
+
+    <!-- Phase 3: output -->
+    <div class="intro-phase" id="phase-3">
+      <canvas id="poisson-canvas"></canvas>
+      <div class="intro-signal" id="signal-text"></div>
+    </div>
+  </div>
+
+  <style>
+    #intro-overlay {
+      position: fixed;
+      inset: 0;
+      background: #0c0c0c;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'IBM Plex Mono', monospace;
+      transition: opacity 0.8s ease;
+    }
+
+    #intro-overlay.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #intro-skip {
+      position: absolute;
+      top: 20px;
+      right: 28px;
+      background: none;
+      border: 1px solid #222222;
+      color: #444444;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+      z-index: 1000;
+    }
+
+    #intro-skip:hover {
+      color: #e2e2e2;
+      border-color: #5a9e6f;
+    }
+
+    .intro-phase {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      padding: 60px 80px;
+    }
+
+    .intro-phase.active {
+      opacity: 1;
+    }
+
+    /* Phase 1 */
+    .intro-split {
+      display: flex;
+      gap: 48px;
+      align-items: center;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .intro-media {
+      flex: 0 0 auto;
+      width: 420px;
+      border: 1px solid #222222;
+      overflow: hidden;
+    }
+
+    .intro-media img {
+      width: 100%;
+      display: block;
+    }
+
+    .intro-log {
+      flex: 1;
+      font-size: 12px;
+      line-height: 2;
+      color: #5a9e6f;
+      white-space: pre;
+    }
+
+    /* Phase 2 */
+    .intro-pipeline {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 40px;
+    }
+
+    .pipe-node {
+      border: 1px solid #222222;
+      color: #e2e2e2;
+      font-size: 12px;
+      padding: 10px 18px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .pipe-node.visible { opacity: 1; }
+
+    .pipe-arrow {
+      color: #5a9e6f;
+      font-size: 18px;
+      padding: 0 10px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .pipe-arrow.visible { opacity: 1; }
+
+    .intro-data-stream {
+      font-size: 11px;
+      color: #333333;
+      line-height: 1.8;
+      text-align: left;
+      white-space: pre;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .intro-data-stream span {
+      color: #5a9e6f;
+    }
+
+    /* Phase 3 */
+    #poisson-canvas {
+      display: block;
+      border: 1px solid #1a1a1a;
+      margin-bottom: 20px;
+    }
+
+    .intro-signal {
+      font-size: 13px;
+      color: #5a9e6f;
+      letter-spacing: 0.06em;
+      min-height: 24px;
+    }
+  </style>
+
+  <script>
+    (function () {
+
+      const overlay  = document.getElementById('intro-overlay');
+      const skipBtn  = document.getElementById('intro-skip');
+      const phases   = [
+        document.getElementById('phase-1'),
+        document.getElementById('phase-2'),
+        document.getElementById('phase-3'),
+      ];
+
+      function dismiss() {
+        overlay.classList.add('fade-out');
+        setTimeout(() => overlay.remove(), 850);
+      }
+
+      skipBtn.addEventListener('click', dismiss);
+
+      // ── Typewriter helper ─────────────────────────────────────
+      function typeLines(el, lines, interval, done) {
+        let i = 0;
+        function next() {
+          if (i >= lines.length) { if (done) done(); return; }
+          el.textContent += lines[i++] + '\n';
+          setTimeout(next, interval);
+        }
+        next();
+      }
+
+      // ── Phase 1 ───────────────────────────────────────────────
+      function runPhase1(done) {
+        phases[0].classList.add('active');
+        const log = document.getElementById('log-1');
+        const lines = [
+          '// ingesting match data...',
+          '> frames:       4320',
+          '> players det:  22',
+          '> ball tracked: true',
+          '',
+          '// computing features...',
+          '> xG model:     loaded',
+          '> possession:   0.583',
+          '> press rate:   14.2 / min',
+          '',
+          '// pipeline ready',
+        ];
+        typeLines(log, lines, 180, done);
+      }
+
+      // ── Phase 2 ───────────────────────────────────────────────
+      function runPhase2(done) {
+        phases[1].classList.add('active');
+        const nodes  = document.querySelectorAll('.pipe-node');
+        const arrows = document.querySelectorAll('.pipe-arrow');
+        const stream = document.getElementById('data-stream');
+
+        const rows = [
+          { text: '// market odds ingested',              type: 'comment' },
+          { text: 'match:       Man City  vs  Arsenal',   type: 'plain'   },
+          { text: 'kickoff:     2026-09-13  15:00',       type: 'plain'   },
+          { text: 'mkt_prob:    H=0.4120  D=0.2410  A=0.3470', type: 'plain' },
+          { text: '',                                      type: 'plain'   },
+          { text: '// model output',                      type: 'comment' },
+          { text: 'mdl_prob:    H=0.4481  D=0.2284  A=0.3235', type: 'plain' },
+          { text: 'edge[home]:  +0.0361',                 type: 'value'   },
+          { text: 'edge[draw]:  -0.0126',                 type: 'plain'   },
+          { text: 'edge[away]:  -0.0235',                 type: 'plain'   },
+          { text: '',                                      type: 'plain'   },
+          { text: '// kelly criterion',                   type: 'comment' },
+          { text: 'f*:          0.0872',                  type: 'plain'   },
+          { text: 'stake:       £43.60  →  order priced', type: 'value'   },
+        ];
+
+        // Animate pipeline nodes in sequence
+        let ni = 0;
+        const allEls = [];
+        nodes.forEach((n, i) => { allEls.push(n); if (arrows[i]) allEls.push(arrows[i]); });
+
+        function showNext() {
+          if (ni >= allEls.length) {
+            // Then stream data rows
+            let ri = 0;
+            function streamRow() {
+              if (ri >= rows.length) { setTimeout(done, 400); return; }
+              const row  = rows[ri];
+              const line = document.createElement('div');
+              if (row.type === 'comment') {
+                line.style.color = '#5a9e6f';
+                line.textContent = row.text;
+              } else if (row.type === 'value') {
+                // highlight the part after → in green
+                const parts = row.text.split('→');
+                line.innerHTML = parts.length > 1
+                  ? parts[0] + '→ <span>' + parts[1] + '</span>'
+                  : '<span>' + row.text + '</span>';
+              } else {
+                line.style.color = '#3a3a3a';
+                line.textContent = row.text;
+              }
+              stream.appendChild(line);
+              ri++;
+              setTimeout(streamRow, 210);
+            }
+            streamRow();
+            return;
+          }
+          allEls[ni].classList.add('visible');
+          ni++;
+          setTimeout(showNext, 250);
+        }
+        showNext();
+      }
+
+      // ── Phase 3 — animated joint Poisson distribution ────────
+      function runPhase3(done) {
+        phases[2].classList.add('active');
+
+        const canvas = document.getElementById('poisson-canvas');
+        const ctx    = canvas.getContext('2d');
+        const W = 660, H = 370;
+        canvas.width = W; canvas.height = H;
+
+        // Poisson PMF (iterative, avoids factorial overflow)
+        function pmf(k, lam) {
+          let v = Math.exp(-lam);
+          for (let i = 1; i <= k; i++) v = v * lam / i;
+          return v;
+        }
+
+        const lH = 1.5, lA = 1.1, maxG = 5;
+        const bars = [];
+        let maxP = 0;
+        for (let h = 0; h <= maxG; h++) {
+          for (let a = 0; a <= maxG; a++) {
+            const p = pmf(h, lH) * pmf(a, lA);
+            if (p > maxP) maxP = p;
+            bars.push([h, a, p]);
+          }
+        }
+
+        let theta = 0.8;
+        let frame  = 0;
+        const SPIN_FRAMES = 110;
+        const TARGET      = 0.5;
+        const CX = W / 2, CY = H * 0.62;
+        const SX = 44,    SY = 118, ELEV = 0.38;
+
+        function proj(wx, wy, wz) {
+          const x = wx - 2.5, z = wz - 2.5;
+          const cosT = Math.cos(theta), sinT = Math.sin(theta);
+          const rx = x * cosT + z * sinT;
+          const rz = -x * sinT + z * cosT;
+          return {
+            sx: CX + rx * SX,
+            sy: CY - wy * SY - rz * SX * ELEV,
+            depth: rz
+          };
+        }
+
+        function face(pts, color) {
+          ctx.beginPath();
+          ctx.moveTo(pts[0].sx, pts[0].sy);
+          for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].sx, pts[i].sy);
+          ctx.closePath();
+          ctx.fillStyle = color;
+          ctx.fill();
+          ctx.strokeStyle = 'rgba(12,12,12,0.9)';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+
+        function barColor(p, bright) {
+          const t = p / maxP;
+          return `rgb(${Math.round((10 + t*60)*bright)},${Math.round((60 + t*98)*bright)},${Math.round((30 + t*50)*bright)})`;
+        }
+
+        function drawBar(h, a, p) {
+          const hw = 0.4, ht = (p / maxP) * 0.88;
+          const cosT = Math.cos(theta), sinT = Math.sin(theta);
+          const c = {
+            b00: proj(h-hw,  0, a-hw), b10: proj(h+hw,  0, a-hw),
+            b11: proj(h+hw,  0, a+hw), b01: proj(h-hw,  0, a+hw),
+            t00: proj(h-hw, ht, a-hw), t10: proj(h+hw, ht, a-hw),
+            t11: proj(h+hw, ht, a+hw), t01: proj(h-hw, ht, a+hw),
+          };
+          // Z-facing side
+          if (cosT >= 0) face([c.t00, c.t10, c.b10, c.b00], barColor(p, 0.55));
+          else           face([c.t01, c.t11, c.b11, c.b01], barColor(p, 0.55));
+          // X-facing side
+          if (sinT >= 0) face([c.t00, c.t01, c.b01, c.b00], barColor(p, 0.40));
+          else           face([c.t10, c.t11, c.b11, c.b10], barColor(p, 0.40));
+          // Top
+          face([c.t00, c.t10, c.t11, c.t01], barColor(p, 1.0));
+        }
+
+        function render() {
+          ctx.fillStyle = '#0c0c0c';
+          ctx.fillRect(0, 0, W, H);
+
+          // Axis tick labels
+          ctx.fillStyle = '#2a2a2a';
+          ctx.font = '9px "IBM Plex Mono", monospace';
+          ctx.textAlign = 'center';
+          for (let i = 0; i <= maxG; i++) {
+            const ph = proj(i, 0, maxG + 0.8);
+            ctx.fillText(i, ph.sx, ph.sy + 4);
+            const pa = proj(-0.9, 0, i);
+            ctx.fillText(i, pa.sx, pa.sy + 4);
+          }
+
+          // Sort back-to-front (painter's algorithm)
+          const sorted = [...bars].sort((x, y) =>
+            proj(y[0], 0, y[1]).depth - proj(x[0], 0, x[1]).depth
+          );
+          sorted.forEach(([h, a, p]) => drawBar(h, a, p));
+
+          // Axis labels
+          ctx.fillStyle = '#333333';
+          ctx.font = '10px "IBM Plex Mono", monospace';
+          const hLabel = proj(maxG / 2, 0, maxG + 1.8);
+          ctx.fillText('home goals', hLabel.sx, hLabel.sy);
+          const aLabel = proj(-2.0, 0, maxG / 2);
+          ctx.fillText('away goals', aLabel.sx, aLabel.sy);
+
+          frame++;
+          if (frame < SPIN_FRAMES) {
+            theta += 0.032;
+          } else {
+            theta += (TARGET - theta) * 0.06;
+            if (Math.abs(theta - TARGET) < 0.004) {
+              theta = TARGET;
+              // Settled — type signal
+              const sig  = document.getElementById('signal-text');
+              const text = '// 1 - 1  highest probability  →  order placed';
+              let i = 0;
+              (function tick() {
+                if (i > text.length) { setTimeout(done, 700); return; }
+                sig.textContent = text.slice(0, i++);
+                setTimeout(tick, 28);
+              })();
+              return;
+            }
+          }
+          requestAnimationFrame(render);
+        }
+
+        render();
+      }
+
+      // ── Sequence ──────────────────────────────────────────────
+      const PHASE_DURATION = 3200;
+
+      runPhase1(() => {
+        setTimeout(() => {
+          phases[0].classList.remove('active');
+          runPhase2(() => {
+            setTimeout(() => {
+              phases[1].classList.remove('active');
+              runPhase3(() => {
+                setTimeout(dismiss, 600);
+              });
+            }, 200);
+          });
+        }, 600);
+      });
+
+    })();
+  </script>
+</body>
+</html>
